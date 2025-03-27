@@ -1,5 +1,17 @@
 import express from "express";
 import cors from "cors";
+import pkg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const { Pool } = pkg;
+
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 const app = express();
 const port = 8080;
@@ -33,10 +45,31 @@ let moviesArr = [
 
 app.get("/", (req, res) => res.send("Hello World!"));
 
-// Get all movies
-app.get("/movies", (req, res) => {
-  res.json(moviesArr);
+// Get all movies from PostgreSQL
+app.get("/movies", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM movies ORDER BY id");
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error fetching movies:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
+
+app.get("/test-db", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("DB error");
+  }
+});
+
+pool
+  .query("SELECT NOW()")
+  .then((res) => console.log("DB Connected:", res.rows[0]))
+  .catch((err) => console.error("DB Connection Error:", err));
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)

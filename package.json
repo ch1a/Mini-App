@@ -7,7 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
-    "server": "node src/server/index.js"
+    "server": "nodemon src/server/index.js",
+    "migrate": "knex --knexfile knexfile.js migrate:latest",
+    "make:migration": "knex --knexfile knexfile.js migrate:make",
+    "rollback": "knex --knexfile knexfile.js migrate:rollback"
   },
   "repository": {
     "type": "git",
@@ -22,6 +25,9 @@
   "homepage": "https://github.com/ch1a/Mini-App#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "knex": "^3.1.0",
+    "pg": "^8.14.1"
   }
 }
