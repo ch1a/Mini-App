@@ -94,6 +94,19 @@ function App() {
       });
   }, []);
 
+  const deleteMovie = async (id) => {
+    try {
+      await fetch(`http://localhost:8080/movies/${id}`, {
+        method: "DELETE",
+      });
+
+      // Remove it from state
+      setMovies((prev) => prev.filter((movie) => movie.id !== id));
+    } catch (error) {
+      console.error("Error deleting movie:", error);
+    }
+  };
+
   const filteredMovies = movies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -133,7 +146,13 @@ function App() {
                   <ul>
                     {filteredMovies.map((movie) => (
                       <li key={movie.id}>
-                        {movie.title} ({movie.release_year}) — {movie.director}
+                        {movie.title} ({movie.release_year}) — {movie.director}{" "}
+                        <button
+                          className="delete"
+                          onClick={() => deleteMovie(movie.id)}
+                        >
+                          🗑
+                        </button>
                       </li>
                     ))}
                   </ul>

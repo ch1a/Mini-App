@@ -19,42 +19,7 @@ const port = 8080;
 app.use(cors());
 app.use(express.json());
 
-// let moviesArr = [
-//   {
-//     id: 1,
-//     title: "Midnight In Paris",
-//     runtime: 96,
-//     release_year: 2011,
-//     director: "Woody Allen",
-//   },
-//   {
-//     id: 2,
-//     title: "Titanic",
-//     runtime: 210,
-//     release_year: 1997,
-//     director: "James Cameron",
-//   },
-//   {
-//     id: 3,
-//     title: "From Paris With Love",
-//     runtime: 94,
-//     release_year: 2010,
-//     director: "Pierre Morel",
-//   },
-// ];
-
 app.get("/", (req, res) => res.send("Hello World!"));
-
-// Get all movies from PostgreSQL
-// app.get("/movies", async (req, res) => {
-//   try {
-//     const result = await pool.query("SELECT * FROM movies ORDER BY id");
-//     res.json(result.rows);
-//   } catch (error) {
-//     console.error("Error fetching movies:", error);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
 
 app.get("/movies", async (req, res) => {
   const result = await pool.query("SELECT * FROM movies ORDER BY id");
@@ -79,3 +44,28 @@ pool
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
 );
+
+// Delete a movie by ID
+app.delete("/movies/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    await pool.query("DELETE FROM movies WHERE id = $1", [id]);
+    res.sendStatus(204); // No content
+  } catch (error) {
+    console.error("Error deleting movie:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Update a movie title by ID
+app.put("/movies/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    await pool.query("UPDATE movies SET title = $1 WHERE id = $2", [title, id]);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Error updating movie:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
