@@ -1,4 +1,4 @@
-#root {
+/* #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
@@ -39,4 +39,97 @@
 
 .read-the-docs {
   color: #888;
+} */
+
+/* Reset + base layout */
+/* html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family: sans-serif;
+  background: #2c2b2b;
+  color: white;
+} */
+
+/* Full height for root container */
+/* #root {
+  height: 100%;
+} */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1e1e1e;
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center; /* centers horizontally */
+  align-items: flex-start; /* use center for vertical center */
+  min-height: 100vh;
 }
+
+.movie-container {
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px dashed limegreen;
+  padding: 1rem;
+  margin-top: 2rem;
+  width: 350px;
+  background-color: #2c2c2c;
+  border-radius: 8px;
+}
+
+/* App container: centers all content */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /*  centers horizontally */
+  justify-content: flex-start;
+  height: 100vh;
+  padding-top: 2rem;
+}
+
+/* Limit content width */
+.centered-box {
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Header styles */
+.header {
+  margin-bottom: 1.5rem;
+}
+
+/* Search bar */
+.search-bar input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Movie list */
+.movie-list {
+  width: 100%;
+  text-align: center;
+}
+
+/* Movie list items */
+.movie-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.movie-list li {
+  background: #3b3a3a;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* .centered-box {
+  border: 2px dashed lime;
+} */

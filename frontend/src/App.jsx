@@ -1,56 +1,63 @@
-// import { useEffect, useState } from "react";
+// import { useState, useEffect } from "react";
 // import reactLogo from "./assets/react.svg";
 // import viteLogo from "/vite.svg";
 // import "./App.css";
 
-// const API = "localhost:8080/movies";
+// const API = "http://localhost:8080/movies";
 
 // function App() {
 //   const [count, setCount] = useState(0);
+//   const [movies, setMovies] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [searchTerm, setSearchTerm] = useState(""); // Search bar state
 
-//   // const getMovies = () => {
-//   //   return [
-//   //     { title: "Mean Girls" },
-//   //     { title: "Hackers" },
-//   //     { title: "The Grey" },
-//   //     { title: "Sunshine" },
-//   //     { title: "Ex Machina" },
-//   //   ];
-//   // };
+//   useEffect(() => {
+//     fetch(API)
+//       .then((res) => {
+//         if (!res.ok) throw new Error("Failed to fetch movies");
+//         return res.json();
+//       })
+//       .then((data) => {
+//         setMovies(data);
+//         setLoading(false);
+//       })
+//       .catch((err) => {
+//         console.error(err);
+//         setError("Error loading movies.");
+//         setLoading(false);
+//       });
+//   }, []);
 
-//   // const movies = getMovies();
-//   // console.log(movies);
+//   const filteredMovies = movies.filter((movie) =>
+//     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+//   );
 
 //   return (
 //     <>
 //       <div>
-//         <a href="https://vite.dev" target="_blank">
-//           <img src={viteLogo} className="logo" alt="Vite logo" />
-//         </a>
-//         <a href="https://react.dev" target="_blank">
-//           <img src={reactLogo} className="logo react" alt="React logo" />
-//         </a>
-//       </div>
-//       <h1>Vite + React</h1>
-//       <div className="card">
-//         <button onClick={() => setCount((count) => count + 1)}>
-//           count is {count}
-//         </button>
-//         <p>
-//           Edit <code>src/App.jsx</code> and save to test HMR
-//         </p>
-//       </div>
-//       <p className="read-the-docs">
-//         Click on the Vite and React logos to learn more
-//       </p>
+//         <h1>Movie List</h1>
+//         <div className="search-bar">
+//           <input
+//             type="text"
+//             placeholder="Search movies..."
+//             value={searchTerm}
+//             onChange={(e) => setSearchTerm(e.target.value)}
+//           />
+//         </div>
 
-//       <div>
-//         <h2>Movie List</h2>
-//         <ul>
-//           {movies.map((movie, index) => (
-//             <li key={index}>{movie.title}</li>
-//           ))}
-//         </ul>
+//         {loading && <p>Loading movies...</p>}
+//         {error && <p style={{ color: "red" }}>{error}</p>}
+
+//         {!loading && !error && (
+//           <ul>
+//             {filteredMovies.map((movie) => (
+//               <li key={movie.id}>
+//                 {movie.title} ({movie.release_year}) — {movie.director}
+//               </li>
+//             ))}
+//           </ul>
+//         )}
 //       </div>
 //     </>
 //   );
@@ -59,8 +66,6 @@
 // export default App;
 
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 
 const API = "http://localhost:8080/movies";
@@ -70,6 +75,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch(API)
@@ -82,53 +88,62 @@ function App() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Fetch error:", err);
         setError("Error loading movies.");
         setLoading(false);
       });
   }, []);
 
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
-      {/* <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div> */}
+      <div className="app-container">
+        <div className="centered-box">
+          <div className="header">
+            <h1>Movie List</h1>
 
-      {/* <h1>Vite + React</h1> */}
+            {/* 🔍 Search Bar */}
+            <div className="search-bar" style={{ marginBottom: "1rem" }}>
+              <input
+                type="text"
+                placeholder="Search movies..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{
+                  padding: "0.5rem",
+                  fontSize: "1rem",
+                  width: "250px",
+                  borderRadius: "4px",
+                  border: "1px solid #ccc",
+                }}
+              />
+            </div>
+          </div>
+          <div className="movie-list">
+            {/* 🔄 Loading / Error / Movies */}
+            {loading && <p>Loading movies...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div> */}
-
-      {/* <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
-
-      <div>
-        <h1>Movie List</h1>
-
-        {loading && <p>Loading movies...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        {!loading && !error && (
-          <ul>
-            {movies.map((movie) => (
-              <li key={movie.id}>
-                {movie.title} ({movie.release_year}) — {movie.director}
-              </li>
-            ))}
-          </ul>
-        )}
+            {!loading && !error && (
+              <>
+                {filteredMovies.length > 0 ? (
+                  <ul>
+                    {filteredMovies.map((movie) => (
+                      <li key={movie.id}>
+                        {movie.title} ({movie.release_year}) — {movie.director}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p>No movies match your search.</p>
+                )}
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );
