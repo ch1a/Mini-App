@@ -8,20 +8,20 @@ const path = require("path");
 const dotenv = require("dotenv");
 
 // Try loading from custom path
-dotenv.config({ path: "/app_data/.env" });
+dotenv.config({ path: "./.env" });
 
 // If critical vars are missing, fallback to local .env
-const requiredEnv = [
-  "USER_PASSWORD",
-  "USER_NAME",
-  "DATABASE_PORT",
-  "DATABASE_NAME",
-];
-const isMissing = requiredEnv.some((key) => !process.env[key]);
+// const requiredEnv = [
+//   "USER_PASSWORD",
+//   "USER_NAME",
+//   "DATABASE_PORT",
+//   "DATABASE_NAME",
+// ];
+// const isMissing = requiredEnv.some((key) => !process.env[key]);
 
-if (isMissing) {
-  dotenv.config({ path: path.resolve(__dirname, "./.env") });
-}
+// if (isMissing) {
+//   dotenv.config({ path: path.resolve(__dirname, "./.env") });
+// }
 
 module.exports = {
   development: {
@@ -30,10 +30,10 @@ module.exports = {
       connectionString: process.env.DATABASE_URL,
     },
     migrations: {
-      directory: "./src/server/db/migrations",
+      directory: "./server/db/migrations",
     },
     seeds: {
-      directory: "./src/server/db/seeds",
+      directory: "./server/db/seeds",
     },
   },
   staging: {

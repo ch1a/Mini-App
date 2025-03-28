@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vite",
-    "server": "nodemon src/server/index.js",
+    "server": "nodemon server/index.js",
     "migrate": "knex --knexfile knexfile.js migrate:latest",
     "make:migration": "knex --knexfile knexfile.js migrate:make",
     "rollback": "knex --knexfile knexfile.js migrate:rollback"
