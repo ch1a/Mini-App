@@ -1,4 +1,4 @@
-export function up(knex) {
+exports.up = function (knex) {
   return knex.schema.createTable("movies", (table) => {
     table.increments("id").primary();
     table.string("title").notNullable();
@@ -6,8 +6,8 @@ export function up(knex) {
     table.integer("release_year");
     table.string("director");
   });
-}
+};
 
-export function down(knex) {
-  return knex.schema.dropTable("movies");
-}
+exports.down = function (knex) {
+  return knex.schema.dropTableIfExists("movies");
+};
