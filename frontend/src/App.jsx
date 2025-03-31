@@ -1,70 +1,3 @@
-// import { useState, useEffect } from "react";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
-// import "./App.css";
-
-// const API = "http://localhost:8080/movies";
-
-// function App() {
-//   const [count, setCount] = useState(0);
-//   const [movies, setMovies] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [searchTerm, setSearchTerm] = useState(""); // Search bar state
-
-//   useEffect(() => {
-//     fetch(API)
-//       .then((res) => {
-//         if (!res.ok) throw new Error("Failed to fetch movies");
-//         return res.json();
-//       })
-//       .then((data) => {
-//         setMovies(data);
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.error(err);
-//         setError("Error loading movies.");
-//         setLoading(false);
-//       });
-//   }, []);
-
-//   const filteredMovies = movies.filter((movie) =>
-//     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   return (
-//     <>
-//       <div>
-//         <h1>Movie List</h1>
-//         <div className="search-bar">
-//           <input
-//             type="text"
-//             placeholder="Search movies..."
-//             value={searchTerm}
-//             onChange={(e) => setSearchTerm(e.target.value)}
-//           />
-//         </div>
-
-//         {loading && <p>Loading movies...</p>}
-//         {error && <p style={{ color: "red" }}>{error}</p>}
-
-//         {!loading && !error && (
-//           <ul>
-//             {filteredMovies.map((movie) => (
-//               <li key={movie.id}>
-//                 {movie.title} ({movie.release_year}) — {movie.director}
-//               </li>
-//             ))}
-//           </ul>
-//         )}
-//       </div>
-//     </>
-//   );
-// }
-
-// export default App;
-
 import { useState, useEffect } from "react";
 import "./App.css";
 
@@ -167,5 +100,16 @@ function App() {
     </>
   );
 }
+
+await fetch("http://localhost:8080/movies", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    title: "Interstellar",
+    runtime: 169,
+    release_year: 2014,
+    director: "Christopher Nolan",
+  }),
+});
 
 export default App;

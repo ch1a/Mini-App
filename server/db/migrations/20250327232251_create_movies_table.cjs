@@ -1,12 +1,29 @@
+// exports.up = function (knex) {
+//   return knex.schema.createTable("movies", (table) => {
+//     table.increments("id").primary();
+//     table.string("title").notNullable();
+//     table.integer("runtime");
+//     table.integer("release_year");
+//     table.string("director");
+//   });
+// };
+
+// exports.down = function (knex) {
+//   return knex.schema.dropTableIfExists("movies");
+// };
+
+// server/db/migrations/20250331_create_movies_table.cjs
+
 exports.up = function (knex) {
   return knex.schema.createTable("movies", (table) => {
     table.increments("id").primary();
     table.string("title").notNullable();
+    table.integer("runtime");
+    table.integer("release_year");
+    table.string("director");
     table.string("rated");
     table.string("released");
-    table.integer("runtime");
     table.string("genre");
-    table.string("director");
     table.text("writer");
     table.text("actors");
     table.text("plot");
@@ -19,7 +36,6 @@ exports.up = function (knex) {
     table.string("box_office");
     table.string("imdb_id").unique();
     table.string("type");
-    table.timestamp("created_at").defaultTo(knex.fn.now());
   });
 };
 
