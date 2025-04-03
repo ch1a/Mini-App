@@ -1,0 +1,37 @@
+.statusMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 250px;
+  max-width: 500px;
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 1.5rem 2rem;
+  border-radius: 14px;
+  z-index: 9999;
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  opacity: 0.95;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.statusMessage .error {
+  color: #ff6b6b;
+}
+
+.statusMessage .success {
+  color: #9cff9c;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+  to {
+    opacity: 0.95;
+    transform: translate(-50%, -50%);
+  }
+}
