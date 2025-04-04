@@ -1,7 +1,5 @@
-// Home.jsx
 import { useState, useEffect } from "react";
 import "./Home.css";
-
 function Home({ selectedUser, setSelectedUser }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [omdbResults, setOmdbResults] = useState([]);
@@ -13,6 +11,15 @@ function Home({ selectedUser, setSelectedUser }) {
 
   const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY;
   console.log("Loaded OMDB API Key:", OMDB_API_KEY);
+  console.log("Loaded OMDB API Key:", import.meta.env.VITE_OMDB_API_KEY);
+
+  // const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY;
+  // console.log("Loaded OMDB API Key:", OMDB_API_KEY);
+
+  if (!OMDB_API_KEY) {
+    console.error("❌ OMDB API key not loaded. Check .env and Vite config.");
+  }
+  console.log("OMDB_API_KEY loaded?", OMDB_API_KEY);
 
   // const OMDB_API_KEY = "API_KEY"; // INSERT API KEY, (WILL CONVERT TO DOTENV)
 
