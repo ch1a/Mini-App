@@ -35,3 +35,12 @@
     transform: translate(-50%, -50%);
   }
 }
+
+.home-container,
+.movie-list {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
+}

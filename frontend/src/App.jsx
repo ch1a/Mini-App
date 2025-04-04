@@ -1,29 +1,23 @@
 import { Routes, Route, Link } from "react-router-dom";
 import MovieList from "./MovieList";
 import Favorites from "./Favorites";
-import Home from "./Home"; // or use App itself for search
+import Home from "./Home";
+import NavBar from "./NavBar";
 import "./App.css";
+
+const [selectedUser, setSelectedUser] = useState("");
 
 function App() {
   return (
     <>
-      <nav style={navStyle}>
-        <Link to="/" style={linkStyle}>
-          Home
-        </Link>
-        <Link to="/movies" style={linkStyle}>
-          All Movies
-        </Link>
-        <Link to="/favorites" style={linkStyle}>
-          Favorites
-        </Link>
-      </nav>
-
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/movies" element={<MovieList />} />
-        <Route path="/favorites" element={<Favorites />} />
-      </Routes>
+      <NavBar />
+      <div className="app-wrapper">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/movies" element={<MovieList />} />
+          <Route path="/favorites" element={<Favorites />} />
+        </Routes>
+      </div>
     </>
   );
 }

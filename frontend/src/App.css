@@ -152,3 +152,11 @@ li {
 button.delete {
   margin-left: auto;
 }
+
+/* Ensures every page starts content after navbar height */
+.app-wrapper {
+  padding-top: 100px; /* navbar is 80px + spacing */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

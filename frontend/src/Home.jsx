@@ -9,10 +9,12 @@ function Home() {
   const [newUsername, setNewUsername] = useState("");
   const [error, setError] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
+  const [showCreateUser, setShowCreateUser] = useState(false);
 
-  const OMDB_API_KEY = "";
+  const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY;
 
-  // Load users
+  // const OMDB_API_KEY = "API_KEY"; // INSERT API KEY, (WILL CONVERT TO DOTENV)
+
   useEffect(() => {
     fetch("http://localhost:8080/users")
       .then((res) => res.json())
@@ -20,7 +22,6 @@ function Home() {
       .catch((err) => console.error("Failed to load users", err));
   }, []);
 
-  // Search OMDB when search term changes
   useEffect(() => {
     if (!searchTerm || !selectedUser) return;
 
@@ -55,13 +56,17 @@ function Home() {
       setSelectedUser(data.id);
       setNewUsername("");
       setError("");
-      showStatusMessage(`User "${data.username}" created`);
+      setStatusMessage(`User "${data.username}" created`);
+      setShowCreateUser(false);
     } catch (err) {
       console.error(err);
       setError("Error creating user");
     }
 
-    setTimeout(() => setError(""), 2500);
+    setTimeout(() => {
+      setError("");
+      setStatusMessage("");
+    }, 2500);
   };
 
   const fetchFullMovieDetails = async (imdbID) => {
@@ -113,10 +118,10 @@ function Home() {
       }
 
       const movie = await response.json();
-      showStatusMessage(`✅ "${movie.title}" added to the database.`);
+      showStatusMessage(`"${movie.title}" added to the database.`);
     } catch (err) {
       console.error(err);
-      showStatusMessage(`❌ ${err.message}`);
+      showStatusMessage(`${err.message}`);
     }
   };
 
@@ -162,56 +167,63 @@ function Home() {
   };
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>OMDB Search + Add to Favorites</h2>
+    <div className="home-container">
+      <div className="search-header">
+        <h2>OMDB Search + Add to Favorites</h2>
 
-      {/* User selector */}
-      <label>Select User:</label>
-      <select
-        value={selectedUser}
-        onChange={(e) => setSelectedUser(e.target.value)}
-      >
-        <option value="">-- Choose a user --</option>
-        {users.map((u) => (
-          <option key={u.id} value={u.id}>
-            {u.username}
-          </option>
-        ))}
-      </select>
+        <div className="user-select-container">
+          <label>Select User:</label>
+          <select
+            value={selectedUser}
+            onChange={(e) => setSelectedUser(e.target.value)}
+          >
+            <option value="">-- Choose a user --</option>
+            {users.map((u) => (
+              <option key={u.id} value={u.id}>
+                {u.username}
+              </option>
+            ))}
+          </select>
 
-      {/* Add new user */}
-      <div style={{ marginTop: "0.5rem" }}>
-        <input
-          type="text"
-          placeholder="New username"
-          value={newUsername}
-          onChange={(e) => setNewUsername(e.target.value)}
-        />
-        <button onClick={handleAddUser}>Create User</button>
+          <button
+            onClick={() => setShowCreateUser((prev) => !prev)}
+            className="create-user-btn"
+            aria-label="Create new user"
+            title="Create new user"
+          >
+            {showCreateUser ? "–" : "+"}
+          </button>
+        </div>
+
+        {showCreateUser && (
+          <div className="create-user-input">
+            <input
+              type="text"
+              placeholder="New username"
+              value={newUsername}
+              onChange={(e) => setNewUsername(e.target.value)}
+            />
+            <button onClick={handleAddUser}>Create User</button>
+          </div>
+        )}
+
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search OMDb..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              if (!selectedUser) {
+                setError("⚠️ Select a user to begin searching.");
+                setTimeout(() => setError(""), 2500);
+              }
+            }}
+            className={`search-input ${selectedUser ? "" : "error-border"}`}
+          />
+        </div>
       </div>
 
-      {/* Search input */}
-      <div style={{ marginTop: "1rem" }}>
-        <input
-          type="text"
-          placeholder="Search OMDb..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-            if (!selectedUser) {
-              setError("⚠️ Select a user to begin searching.");
-              setTimeout(() => setError(""), 2500);
-            }
-          }}
-          style={{
-            border: selectedUser ? "1px solid #ccc" : "2px solid red",
-            padding: "0.5rem",
-            width: "250px",
-          }}
-        />
-      </div>
-
-      {/* Messages */}
       {(error || statusMessage) && (
         <div className="statusMessage">
           {error && <p className="error">{error}</p>}
@@ -219,13 +231,9 @@ function Home() {
         </div>
       )}
 
-      {/* Results */}
-      <div style={{ marginTop: "1rem" }}>
+      <div className="results">
         {omdbResults.map((movie) => (
-          <div
-            key={movie.imdbID}
-            style={{ borderBottom: "1px solid #ccc", marginBottom: "1rem" }}
-          >
+          <div className="movie-card" key={movie.imdbID}>
             <strong>
               {movie.Title} ({movie.Year})
             </strong>
