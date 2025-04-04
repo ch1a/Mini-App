@@ -1,17 +1,18 @@
+// Home.jsx
 import { useState, useEffect } from "react";
 import "./Home.css";
 
-function Home() {
+function Home({ selectedUser, setSelectedUser }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [omdbResults, setOmdbResults] = useState([]);
   const [users, setUsers] = useState([]);
-  const [selectedUser, setSelectedUser] = useState("");
   const [newUsername, setNewUsername] = useState("");
   const [error, setError] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [showCreateUser, setShowCreateUser] = useState(false);
 
   const OMDB_API_KEY = import.meta.env.VITE_OMDB_API_KEY;
+  console.log("Loaded OMDB API Key:", OMDB_API_KEY);
 
   // const OMDB_API_KEY = "API_KEY"; // INSERT API KEY, (WILL CONVERT TO DOTENV)
 

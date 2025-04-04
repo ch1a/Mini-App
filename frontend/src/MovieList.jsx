@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./MovieList.css"; // <-- Make sure this file includes your .statusMessage styles
+import "./MovieList.css";
 
 function MovieList() {
   const [movies, setMovies] = useState([]);
